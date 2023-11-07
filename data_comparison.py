@@ -32,7 +32,7 @@ if __name__ == '__main__':
     classmates_map_data_change['Tejasvi Bhutiyal'] ='I love to binge watch series and explore new places.'
     person_modified_embeddings = mmv.match_making_model.generate_embeddings(classmates_map_data_change)
     
-    mmv.match_making_model.save_embeddings_json(person_modified_embeddings,CONFIG.MOD_PERSON_EMBEDDING_DATA)
+    mmv.match_making_model.save_embeddings_json(person_modified_embeddings,'modified_embeddings_minilm')
     old_embeddings_path = CONFIG.PERSON_EMBEDDING_DATA 
 
 
