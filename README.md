@@ -32,7 +32,7 @@ For data analysis we selected 4 sentences from our dataset:
 
     ![Alt text](Images/modified_data.png?raw=true)
 
-Results: Cosine similarity for it
+Results: Cosine similarities
     
 ![Alt text](Results/similarity_embeddings.png?raw=true)
 
@@ -40,7 +40,7 @@ Results: Cosine similarity for it
 
 For Rakshit and Neeyati, we get a high cosine similarity score of more than 78%, which was expected too as the words in the sentences were only replaced by their synonyms as in case of sleeping with napping or paraphrased the whole sentence again as in case of Rakshit. It shows that transformer was capable of finding similarities between the words and was able to capture semantic relationships.
 
-For Tejasvi, the sentence was kept as it is an we got a score of 100% which shows that embeddings created were same.
+For Tejasvi, the sentence was kept as it is and we got a score of 100% which shows that embeddings created were same.
 
 For Sylvester, we replaced the the word outdoor with inside and made the sentence completely opposite, but suprisingly got a score of 69%. This may be due to the reason, all the words in the sentence was same except one or two. It shows that irrespective of opposite meaning of one word, embeddings formed by were quite similar due to usage of same words in same context.
 
