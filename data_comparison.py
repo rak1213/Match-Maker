@@ -46,4 +46,4 @@ if __name__ == '__main__':
 
     # Output the results
     for name, similarity in similarities:
-        print(f'Similarity between sentence of {name} and Modifed {name}: {similarity * 100}%')
+        print(f'Similarity between sentence of {name} and Modifed {name}: {similarity * 100}%')   
