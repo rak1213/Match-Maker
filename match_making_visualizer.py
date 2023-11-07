@@ -83,6 +83,8 @@ if __name__ == '__main__':
     person_embeddings = match_making_model.generate_embeddings(classmates_map)
     match_making_model.save_embeddings_json(person_embeddings,CONFIG.PERSON_EMBEDDING_DATA)
     reduced_embeddings_data = match_making_model.dimension_reduction(person_embeddings)
-    match_making_model.save_embeddings_json(reduced_embeddings_data,CONFIG.DIM_RED_PERSON_EMBEDDING_DATA,person_embeddings)
-    match_making_model.save_plot_matches(reduced_embeddings_data, CONFIG.VISUALIZATION_IMAGE)
+    match_making_model.save_embeddings_json(reduced_embeddings_data,CONFIG.DIM_RED_PERSON_EMBEDDING_DATA)
+    match_making_model.save_plot_matches(reduced_embeddings_data, CONFIG.VISUALIZATION_IMAGE,person_embeddings)
     top_matches = match_making_model.all_top_match_people(classmates_map,person_embeddings)
+
+
