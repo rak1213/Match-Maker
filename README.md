@@ -17,9 +17,3 @@ Words with similar meanings has similar numerical representations, and are close
 ![alt text](https://miro.medium.com/v2/resize:fit:1400/format:webp/1*JICAZM0gRjD9kSyMZtm99Q.png)
 
 In the image we can see that the similar words are placed together like media and press, Obama and president and others.
-
-
-### Data Analysis
-
-For data analysis we took 4 sentences of the people as shown below
-
