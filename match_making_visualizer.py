@@ -1,7 +1,6 @@
 import csv
 import umap
 import matplotlib.pyplot as plt
-import seaborn as sns
 import json
 import os
 import config as CONFIG
