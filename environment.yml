@@ -1,4 +1,4 @@
-name: Assignment_Match_Making
+name: tutorial
 channels:
   - conda-forge
   - pytorch
@@ -17,3 +17,4 @@ dependencies:
   - sentence-transformers
   - umap-learn
   - black
+  - optuna
