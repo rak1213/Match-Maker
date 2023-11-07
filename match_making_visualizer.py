@@ -22,10 +22,10 @@ class match_making_model:
                 classmates_map[name] = paragraph
         return classmates_map
 
-    def generate_embeddings(class_val_map):
+    def generate_embeddings(class_val_map,transformer):
         # Generate sentence embeddings
         person_embeddings = {}
-        sentence_trasformer_model = SentenceTransformer('sentence-transformers/all-MiniLM-L6-v2')
+        sentence_trasformer_model = SentenceTransformer(transformer)
         paragraphs = list(class_val_map.values())
         embeddings = sentence_trasformer_model.encode(paragraphs)    
         # Create a dictionary to store embeddings for each person
@@ -80,7 +80,7 @@ class NumpyArrayEncoder(json.JSONEncoder):
 
 if __name__ == '__main__':
     classmates_map = match_making_model.read_data('Dataset.csv')
-    person_embeddings = match_making_model.generate_embeddings(classmates_map)
+    person_embeddings = match_making_model.generate_embeddings(classmates_map,CONFIG.TRANSFORMER_MINILM_L6_V2)
     match_making_model.save_embeddings_json(person_embeddings,CONFIG.PERSON_EMBEDDING_DATA)
     reduced_embeddings_data = match_making_model.dimension_reduction(person_embeddings)
     match_making_model.save_embeddings_json(reduced_embeddings_data,CONFIG.DIM_RED_PERSON_EMBEDDING_DATA)
