@@ -68,7 +68,7 @@ class match_making_model:
         return top_matches
 
     def save_embeddings_json(embeddings_dict,file_name):
-        path = os.path.join(CONFIG.BASE_RESULTS, file_name)
+        path = os.path.join(CONFIG.BASE_RESULTS, file_name+'.json')
         with open(path, 'w') as json_file:
             json.dump(embeddings_dict, json_file,cls=NumpyArrayEncoder)
 
