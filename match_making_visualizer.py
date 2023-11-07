@@ -3,6 +3,7 @@ import umap
 import matplotlib.pyplot as plt
 import seaborn as sns
 import json
+import os
 import config as CONFIG
 import numpy as np
 from collections import defaultdict
@@ -43,7 +44,8 @@ class match_making_model:
         return reduced_data
     # Creating lists of coordinates with accompanying labels
 
-    def save_plot_matches(reduced_data,path,person_embeddings):
+    def save_plot_matches(reduced_data,file_name,person_embeddings):
+        path = os.path.join(CONFIG.BASE_RESULTS, file_name)
         x = [row[0] for row in reduced_data]
         y = [row[1] for row in reduced_data]
         label = list(person_embeddings.keys())
@@ -66,7 +68,8 @@ class match_making_model:
             top_matches[person] = sorted(all_personal_pairs[person], key=lambda x: x[1])
         return top_matches
 
-    def save_embeddings_json(embeddings_dict,path):
+    def save_embeddings_json(embeddings_dict,file_name):
+        path = os.path.join(CONFIG.BASE_RESULTS, file_name)
         with open(path, 'w') as json_file:
             json.dump(embeddings_dict, json_file,cls=NumpyArrayEncoder)
 
@@ -79,10 +82,22 @@ class NumpyArrayEncoder(json.JSONEncoder):
     
 
 if __name__ == '__main__':
+    transformer_minilm = CONFIG.TRANSFORMER_MINILM_L6_V2
+    transformer_mpnet = CONFIG.TRANSFORMER_MPNET_BASE_V2
+    transformer = transformer_mpnet
+    if(transformer == transformer_minilm ):
+        img_name = 'visualization_minilm'
+        embeddings_file_name = 'person_embeddings_minilm'
+        red_embeddings_file_name = 'reduced_person_embeddings_minilm'
+    elif(transformer == transformer_mpnet ):
+        img_name = 'visualization_mpnet'
+        embeddings_file_name = 'person_embeddings_mpnet'
+        red_embeddings_file_name = 'reduced_person_embeddings_mpnet'
+
     classmates_map = match_making_model.read_data('Dataset.csv')
-    person_embeddings = match_making_model.generate_embeddings(classmates_map,CONFIG.TRANSFORMER_MINILM_L6_V2)
-    match_making_model.save_embeddings_json(person_embeddings,CONFIG.PERSON_EMBEDDING_DATA)
+    person_embeddings = match_making_model.generate_embeddings(classmates_map,transformer)
+    match_making_model.save_embeddings_json(person_embeddings,embeddings_file_name)
     reduced_embeddings_data = match_making_model.dimension_reduction(person_embeddings)
-    match_making_model.save_embeddings_json(reduced_embeddings_data,CONFIG.DIM_RED_PERSON_EMBEDDING_DATA)
-    match_making_model.save_plot_matches(reduced_embeddings_data, CONFIG.VISUALIZATION_IMAGE,person_embeddings)
+    match_making_model.save_embeddings_json(reduced_embeddings_data,red_embeddings_file_name)
+    match_making_model.save_plot_matches(reduced_embeddings_data, img_name,person_embeddings)
     top_matches = match_making_model.all_top_match_people(classmates_map,person_embeddings)
