@@ -1,0 +1,19 @@
+name: Assignment_Match_Making
+channels:
+  - conda-forge
+  - pytorch
+dependencies:
+  - python = 3.10
+  - pip
+  - pytorch
+  - numpy
+  - pandas
+  - scikit-learn
+  - matplotlib
+  - matplotlib-inline
+  - nltk
+  - seaborn
+  - bs4
+  - sentence-transformers
+  - umap-learn
+  - black
