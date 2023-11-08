@@ -83,7 +83,7 @@ class NumpyArrayEncoder(json.JSONEncoder):
 if __name__ == '__main__':
     transformer_minilm = CONFIG.TRANSFORMER_MINILM_L6_V2
     transformer_mpnet = CONFIG.TRANSFORMER_MPNET_BASE_V2
-    transformer = transformer_mpnet
+    transformer = transformer_minilm
     if(transformer == transformer_minilm ):
         img_name = 'visualization_minilm'
         embeddings_file_name = 'person_embeddings_minilm'
