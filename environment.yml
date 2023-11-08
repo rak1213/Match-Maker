@@ -1,4 +1,4 @@
-name: tutorial
+name: MatchMaking
 channels:
   - conda-forge
   - pytorch
