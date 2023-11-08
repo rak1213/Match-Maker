@@ -2,6 +2,7 @@ import umap
 import numpy as np
 import json
 import optuna
+import os
 import config as CONFIG
 from scipy.spatial.distance import cosine
 from scipy.stats import spearmanr
@@ -14,13 +15,14 @@ def load_embeddings(file_path):
 
 def umap_objective(trial):
     # Define the hyperparameters to tune
-    n_neighbors = trial.suggest_int('n_neighbors', 5, 50)
+    n_neighbors = trial.suggest_int('n_neighbors', 2, 50)
     min_dist = trial.suggest_float('min_dist', 0.0, 0.9)
 
     reducer = umap.UMAP(n_neighbors=n_neighbors, min_dist=min_dist, random_state=CONFIG.RANDOM_STATE)
 
     path = os.path.join(CONFIG.BASE_RESULTS,'person_embeddings_minilm.json')
-    embeddings = load_embeddings()
+    embeddings_dict = load_embeddings(path)
+    embeddings = np.array(list(embeddings_dict.values()))
     embedding_2d = reducer.fit_transform(embeddings)
 
     # Compute Spearman rank correlations
@@ -31,6 +33,7 @@ def umap_objective(trial):
 
         # Compute Euclidean distances in the 2D space
         euclidean_dists = np.linalg.norm(embedding_2d - embedding_2d[i], axis=1)
+        metric = trial.suggest_categorical('metric', ['euclidean', 'cosine'])
 
         # Compute rankings
         cos_ranks = np.argsort(cos_similarities)
@@ -45,4 +48,7 @@ def umap_objective(trial):
 
 
 if __name__ == '__main__':  
-    pass
+    study = optuna.create_study(direction='maximize')
+    study.optimize(umap_objective, n_trials=100)
+    best_params = study.best_params
+    print("Best Parameters:", best_params)
