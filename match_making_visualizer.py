@@ -192,11 +192,12 @@ if __name__ == "__main__":
     person_embeddings = MatchMakingModel.generate_embeddings(
         classmates_map, transformer
     )
-    MatchMakingModel.save_embeddings_json(person_embeddings, embeddings_file_name)
     reduced_embeddings_data = MatchMakingModel.dimension_reduction(person_embeddings)
-    MatchMakingModel.save_embeddings_json(
-        reduced_embeddings_data, red_embeddings_file_name
-    )
+    if (CONFIG.SAVE_EMBEDDINGS == 1):
+        MatchMakingModel.save_embeddings_json(person_embeddings, embeddings_file_name)
+        MatchMakingModel.save_embeddings_json(
+            reduced_embeddings_data, red_embeddings_file_name
+        )
     MatchMakingModel.save_plot_matches(
         reduced_embeddings_data, img_name, person_embeddings
     )

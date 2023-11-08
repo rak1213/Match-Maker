@@ -71,10 +71,10 @@ if __name__ == "__main__":
     person_modified_embeddings = mmv.MatchMakingModel.generate_embeddings(
         classmates_map_data_change, CONFIG.TRANSFORMER_MINILM_L6_V2
     )
-
-    mmv.MatchMakingModel.save_embeddings_json(
-        person_modified_embeddings, "modified_embeddings_minilm"
-    )
+    if(CONFIG.SAVE_EMBEDDINGS == 1):
+        mmv.MatchMakingModel.save_embeddings_json(
+            person_modified_embeddings, "modified_embeddings_minilm"
+        )
     old_embeddings_path = os.path.join(
         CONFIG.BASE_RESULTS, "person_embeddings_minilm.json"
     )
