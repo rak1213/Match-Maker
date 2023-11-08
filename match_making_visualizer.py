@@ -36,7 +36,7 @@ class match_making_model:
     # Reducing dimensionality of embedding data, scaling to coordinate domain/range
     def dimension_reduction(embedding_vector):
         reduced_data = []
-        reducer = umap.UMAP(random_state=CONFIG.RANDOM_STATE)
+        reducer = umap.UMAP(random_state=42)
         scaler = StandardScaler()
         scaled_data = scaler.fit_transform(list(embedding_vector.values()))
         reduced_data = reducer.fit_transform(scaled_data)
@@ -68,7 +68,7 @@ class match_making_model:
         return top_matches
 
     def save_embeddings_json(embeddings_dict,file_name):
-        path = os.path.join(CONFIG.BASE_RESULTS, file_name)
+        path = os.path.join(CONFIG.BASE_RESULTS, file_name+'.json')
         with open(path, 'w') as json_file:
             json.dump(embeddings_dict, json_file,cls=NumpyArrayEncoder)
 
@@ -83,14 +83,9 @@ class NumpyArrayEncoder(json.JSONEncoder):
 if __name__ == '__main__':
     transformer_minilm = CONFIG.TRANSFORMER_MINILM_L6_V2
     transformer_mpnet = CONFIG.TRANSFORMER_MPNET_BASE_V2
-    transformer = transformer_minilm
+    transformer = transformer_mpnet
     if(transformer == transformer_minilm ):
-        if(CONFIG.RANDOM_STATE == 0):
-            img_name = 'visualization_minilm_rs_0'
-        elif(CONFIG.RANDOM_STATE == 23):
-            img_name = 'visualization_minilm_rs_23'
-        else:
-            img_name = 'visualization_minilm'
+        img_name = 'visualization_minilm'
         embeddings_file_name = 'person_embeddings_minilm'
         red_embeddings_file_name = 'reduced_person_embeddings_minilm'
     elif(transformer == transformer_mpnet ):
@@ -99,12 +94,9 @@ if __name__ == '__main__':
         red_embeddings_file_name = 'reduced_person_embeddings_mpnet'
 
     classmates_map = match_making_model.read_data('Dataset.csv')
-    person_embeddings = match_making_model.generate_embeddings(classmates_map,transformer)        
+    person_embeddings = match_making_model.generate_embeddings(classmates_map,transformer)
+    match_making_model.save_embeddings_json(person_embeddings,embeddings_file_name)
     reduced_embeddings_data = match_making_model.dimension_reduction(person_embeddings)
-    
-    if(CONFIG.SAVE_EMBEDDINGS == 1) :
-        match_making_model.save_embeddings_json(person_embeddings,embeddings_file_name)
-        match_making_model.save_embeddings_json(reduced_embeddings_data,red_embeddings_file_name)
-    
+    match_making_model.save_embeddings_json(reduced_embeddings_data,red_embeddings_file_name)
     match_making_model.save_plot_matches(reduced_embeddings_data, img_name,person_embeddings)
     top_matches = match_making_model.all_top_match_people(classmates_map,person_embeddings)
