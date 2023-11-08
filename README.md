@@ -2,13 +2,17 @@
 
 _"Words can't describe how unique your interests are... but coordinates can" - Sean Ashley, circa 2023_
 
-A flattened embedding space of names clustered based on their interests using the sentence-transformers all-MiniLM-L6-v2 model.
+A flattened embedding space of names clustered based on their interests using the sentence-transformers 
 
-![Sample output of script](Results/visualization_minilm.png?raw=true)
+1. all-MiniLM-L6-v2 model
 
+    ![Sample output of script](Results/visualization_minilm.png?raw=true)
 
+2. all-mpnet-base-v2 model
 
-### What Are Embeddings?
+    ![Sample output of script](Results/visualization_mpnet.png?raw=true)
+
+## What Are Embeddings?
 
 In simple terms, embeddings are a way to translate words and sentences into a language that computers can understand. Each word has its own set of characteristics, meanings and usage in different contexts, and relationships with other words. Embeddings turn these characteristics into numbers that represent each word uniquely, much like assigning a specific code to each word based on its features.
 
@@ -20,7 +24,7 @@ In the image we can see that the similar words are placed together like media an
 
 
 
-### Data Analysis
+## Data Analysis
 
 For data analysis we selected 4 sentences from our dataset:
 
@@ -46,7 +50,7 @@ For Sylvester, we replaced the the word outdoor with inside and made the sentenc
 
 
 
-### Embedding Sensitivity Tests
+## Embedding Sensitivity Tests
 
 The core of our comparison relied on Spearman’s rank correlation coefficient, which measures the similarity in the ordering of classmates from a particular person's embedding from closest to farthest, as determined by the two models. The Spearman’s rank correlation coefficient was found to be 0.81761 (81.761%), indicating a strong positive correlation between the rankings produced by the two models. This high correlation suggests that despite the change in model, the overall ordering of classmates in terms of similarity to a reference embedding (mine) remained relatively consistent.
 
@@ -55,3 +59,30 @@ It was observed that there were some notable shifts in rankings for certain indi
 Below is the flattened embedding space of names clustered based on their interests using the sentence-transformers all-mpnet-base-v2 model.
 
 ![Sample output of script](Results/visualization_mpnet.png?raw=true)
+
+
+## Dimension Reduction Analysis
+
+We tried getting the visualizations at different random seeds like 0, 23 and 42 (shown on top) for sentence transformer all-MiniLM-L6-v2 model. Below are the visualizations as shown:
+
+![Sample output of script](Results/visualization_minilm_rs_0.png?raw=true)
+
+![Sample output of script](Results/visualization_minilm_rs_23.png?raw=true)
+
+When using different random seed in UMAP dimension reduction exhibited notable fluctuations.This variability indicated a certain degree of instability or sensitivity in the model, suggesting that the initial embeddings' placement significantly influenced the resultant 2D projections.
+
+However, post-tuning, UMAP with optimized parameters using optuna for n_neighbors, min_dist and metric, the model exhibited markedly reduced sensitivity to changes in the random seed. The visualizations remained more consistent across different seeds, indicating enhanced stability in the dimension reduction process by UMAP. This improvement suggests that the tuned parameters better captured the intrinsic structure of the data, making the model less reliant on the initial random configuration and more robust to variations in starting conditions.
+
+### RESULTS:
+
+1. Output for Tuned UMAP at ramdom seed 0
+
+    ![Sample output of script](Results/visualization_umap_optimised_0.png?raw=true)
+
+2. Output for Tuned UMAP at ramdom seed 23
+
+    ![Sample output of script](Results/visualization_umap_optimised_23.png?raw=true)
+
+3. Output for Tuned UMAP at ramdom seed 42
+
+    ![Sample output of script](Results/visualization_umap_optimised_42.png?raw=true)
