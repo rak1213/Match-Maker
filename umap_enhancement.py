@@ -4,6 +4,7 @@ import json
 import optuna
 import os
 import config as CONFIG
+import match_making_visualizer as mmv
 from scipy.spatial.distance import cosine
 from scipy.stats import spearmanr
 
@@ -17,8 +18,8 @@ def umap_objective(trial):
     # Define the hyperparameters to tune
     n_neighbors = trial.suggest_int('n_neighbors', 2, 50)
     min_dist = trial.suggest_float('min_dist', 0.0, 0.9)
-
-    reducer = umap.UMAP(n_neighbors=n_neighbors, min_dist=min_dist, random_state=CONFIG.RANDOM_STATE)
+    metric = trial.suggest_categorical('metric', ['euclidean', 'cosine'])
+    reducer = umap.UMAP(n_neighbors=n_neighbors, min_dist=min_dist, metric=metric, random_state=CONFIG.RANDOM_STATE)
 
     path = os.path.join(CONFIG.BASE_RESULTS,'person_embeddings_minilm.json')
     embeddings_dict = load_embeddings(path)
@@ -33,7 +34,7 @@ def umap_objective(trial):
 
         # Compute Euclidean distances in the 2D space
         euclidean_dists = np.linalg.norm(embedding_2d - embedding_2d[i], axis=1)
-        metric = trial.suggest_categorical('metric', ['euclidean', 'cosine'])
+        
 
         # Compute rankings
         cos_ranks = np.argsort(cos_similarities)
@@ -52,3 +53,11 @@ if __name__ == '__main__':
     study.optimize(umap_objective, n_trials=100)
     best_params = study.best_params
     print("Best Parameters:", best_params)
+    path = os.path.join(CONFIG.BASE_RESULTS,'person_embeddings_minilm.json')
+    embeddings_dict = load_embeddings(path)
+    embeddings = np.array(list(embeddings_dict.values()))
+
+    best_reducer = umap.UMAP(**best_params, random_state=CONFIG.RANDOM_STATE)
+    optimized_embedding_2d = best_reducer.fit_transform(embeddings)
+    mmv.match_making_model.save_plot_matches(optimized_embedding_2d, f'visualization_umap_optimised_{CONFIG.RANDOM_STATE}',embeddings_dict)
+
