@@ -1,10 +1,26 @@
-import os
+"""
+This script segment sets up the initial configurations and constants for a matchmaking model.
 
-BASE_RESULTS = 'Results'
-TRANSFORMER_MINILM_L6_V2 = 'sentence-transformers/all-MiniLM-L6-v2'
-TRANSFORMER_MPNET_BASE_V2 = 'sentence-transformers/all-mpnet-base-v2'
+It includes:
+- Suppressing warnings for cleaner output.
+- Defining base paths and transformer model names for use in embedding generation.
+- A flag for controlling whether embeddings should be saved.
+- Setting a random state for reproducibility in processes like dimensionality reduction and model training.
 
-VISUALIZATION_IMAGE = os.path.join(BASE_RESULTS,'visualization.png')
-PERSON_EMBEDDING_DATA = os.path.join(BASE_RESULTS,'person_embeddings.json')
-DIM_RED_PERSON_EMBEDDING_DATA = os.path.join(BASE_RESULTS,'dim_red_person_embeddings.json')
-MOD_PERSON_EMBEDDING_DATA = os.path.join(BASE_RESULTS,'modified_person_embeddings.json')
+Note:
+    The random state can be changed to different values for experimenting with different outcomes in model behavior.
+"""
+
+import warnings
+
+warnings.simplefilter("ignore")
+
+BASE_RESULTS = "Results"
+TRANSFORMER_MINILM_L6_V2 = "sentence-transformers/all-MiniLM-L6-v2"
+TRANSFORMER_MPNET_BASE_V2 = "sentence-transformers/all-mpnet-base-v2"
+
+SAVE_EMBEDDINGS = 0
+
+RANDOM_STATE = 42
+# RANDOM_STATE = 0
+# RANDOM_STATE = 23
