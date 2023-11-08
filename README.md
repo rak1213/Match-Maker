@@ -54,6 +54,8 @@ For Sylvester, we replaced the the word outdoor with inside and made the sentenc
 
 The core of our comparison relied on Spearman’s rank correlation coefficient, which measures the similarity in the ordering of classmates from a particular person's embedding from closest to farthest, as determined by the two models. The Spearman’s rank correlation coefficient was found to be 0.81761 (81.761%), indicating a strong positive correlation between the rankings produced by the two models. This high correlation suggests that despite the change in model, the overall ordering of classmates in terms of similarity to a reference embedding (mine) remained relatively consistent.
 
+![Sample output of script](Images/sp_rank.png?raw=true)
+
 It was observed that there were some notable shifts in rankings for certain individuals. Specifically, a few classmates who were ranked moderately far in the all-MiniLM-L6-v2 model appeared significantly closer in the all-mpnet-base-v2 model and vice versa. This shift underscores the nuanced differences in how each model processes and represents semantic similarities in text.
 
 Below is the flattened embedding space of names clustered based on their interests using the sentence-transformers all-mpnet-base-v2 model.
@@ -75,6 +77,8 @@ However, post-tuning, UMAP with optimized parameters using optuna for n_neighbor
 
 ### RESULTS:
 
+
+
 1. Output for Tuned UMAP at ramdom seed 0
 
     ![Sample output of script](Results/visualization_umap_optimised_0.png?raw=true)
@@ -84,5 +88,12 @@ However, post-tuning, UMAP with optimized parameters using optuna for n_neighbor
     ![Sample output of script](Results/visualization_umap_optimised_23.png?raw=true)
 
 3. Output for Tuned UMAP at ramdom seed 42
+    
+    ![Sample output of script](Images/optuna_tuned_best_params.png?raw=true)
+
+    Shown above are the results of optuna study to find best parameters for umap to get the best results to maximize average rank correlation between
+
+    (a) cosine similarity in embedding space  
+    (b) the Euclidean distance between points in the two-dimensional visualization
 
     ![Sample output of script](Results/visualization_umap_optimised_42.png?raw=true)
