@@ -203,3 +203,4 @@ if __name__ == "__main__":
     top_matches = MatchMakingModel.all_top_match_people(
         classmates_map, person_embeddings
     )
+
