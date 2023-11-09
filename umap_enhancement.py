@@ -62,7 +62,7 @@ def umap_objective(trial):
 
         euclidean_dists = np.linalg.norm(embedding_2d - embedding_2d[i], axis=1)
 
-        cos_ranks = np.argsort(cos_similarities)
+        cos_ranks = np.argsort(-cos_similarities)
         euclidean_ranks = np.argsort(euclidean_dists)
 
         correlation, _ = spearmanr(cos_ranks, euclidean_ranks)
