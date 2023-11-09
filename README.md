@@ -2,7 +2,7 @@
 
 _"Words can't describe how unique your interests are... but coordinates can" - Sean Ashley, circa 2023_
 
-A flattened embedding space of names clustered based on their interests using the sentence-transformers 
+The data file contains contains names and brief descriptions of interests from my classmates using which we will be creating a flattened embedding space of names clustered based on their interests using the sentence-transformers.
 
 1. all-MiniLM-L6-v2 model
 
@@ -77,8 +77,6 @@ However, post-tuning, UMAP with optimized parameters using optuna for n_neighbor
 
 ### RESULTS:
 
-
-
 1. Output for Tuned UMAP at ramdom seed 0
 
     ![Sample output of script](Results/visualization_umap_optimised_0.png?raw=true)
@@ -97,3 +95,5 @@ However, post-tuning, UMAP with optimized parameters using optuna for n_neighbor
     (b) the Euclidean distance between points in the two-dimensional visualization
 
     ![Sample output of script](Results/visualization_umap_optimised_42.png?raw=true)
+
+As we can see that after optimising UMAP with optuna, the effect of random seed was comparatively less on the visualization than without optimization. Rakshit, Nghia, Nikita and Raoof showed consistent pattern in the above plots after optimization than in the initial plots on change of random seed. It showed model preserves the meaningful relationships in the data even after reducing the dimensions. This shows that the tuned model exhibits stability however it is still not completely insensitive to random seed.
